@@ -1,0 +1,677 @@
+\documentclass[12pt]{article}
+
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{calc}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{newtxtext}
+\usepackage{newtxmath}
+\usepackage{xcolor}
+\usepackage[
+    left=0.5in,
+    right=0.5in,
+    top=1in,
+    bottom=0.5in
+]{geometry}
+\usepackage{fancyhdr}
+\usepackage{changepage}
+\usepackage{relsize}
+\usepackage{longtable}
+\usepackage[longtable]{multirow}
+\usepackage{hyperref}
+
+\hypersetup{
+    colorlinks=true,
+    urlcolor=blue
+}
+
+\clubpenalty=10000
+\widowpenalty=9999
+
+\newcommand{\courseheaderfont}{\fontfamily{phv}\selectfont\bfseries}
+
+\fancyhf{}
+\fancyhead[L]{%
+    \courseheaderfont
+    University of Massachusetts Boston\\
+    PHYSIC 114
+}
+\fancyhead[R]{%
+    \courseheaderfont
+    Spring 2021\\
+    Jan 25--May 21, 2021
+}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+
+\setlength{\headheight}{28pt}
+\addtolength{\topmargin}{-16pt}
+\pagestyle{fancy}
+
+\newlength{\entrywidth}
+\newlength{\textbookwidth}
+\newlength{\warningwidth}
+\newlength{\quizlabelwidth}
+\newlength{\quiztextwidth}
+\setlength{\textbookwidth}{\textwidth-10em}
+
+
+% We will now define the command \atextbook{...}, which formats a textbook entry 
+% within a minipage of fixed width \textbookwidth.
+%
+% The default behavor for paragraphs in a minipage is the default behavior for
+% paragraphs in general: all lines are justified except the very last one, which
+% is flush left.
+%
+% But for my textbook entries, I really wanted the very last line to be flush
+% right instead.
+%
+% That can be accomplished as follows.
+%
+% We first need to be able to tell if the textbook entry fits into a single
+% line. We do that as follows: \settowidth measures how wide would the
+% argument be if it is in a single line, and stores the result in \entrywidth.
+%
+% After that, the command 
+%   \ifdim\entrywidth>\textbookwidth 
+% checks if the single-line width of the entry is greater than the width of the
+% minipage. 
+%
+% If it isn't, we just put \hfill after the entry, to ensure it is flush left.
+%
+% If it is, we execute the following three commands (which will ensure that all
+% lines be justified except the very last one, which should be flush right):
+%   \setlength{\leftskip}{0pt plus 1fil}
+%       This adds infinitely stretchable space at the left of every line. By
+%       itself, this would push every line against the right margin.
+%
+%   \setlength{\rightskip}{-\leftskip}
+%       This adds matching negative glue at the right of every line. On each
+%       complete, nonfinal line, this cancels the special effect of
+%       \leftskip, so the line remains normally justified.
+%
+%   \setlength{\parfillskip}{\leftskip}
+%       This adds another 0pt plus 1fil at the end of the final line only.
+%       On that line, it cancels the negative \rightskip, leaving the
+%       positive \leftskip uncancelled.  The remaining stretchable space
+%       therefore appears at the left and pushes the final line flush right.
+%
+\newcommand{\atextbook}[1]{%
+    \settowidth{\entrywidth}{#1}%
+    \begin{minipage}{\textbookwidth}
+        \ifdim\entrywidth>\textbookwidth
+            \setlength{\leftskip}{0pt plus 1fil}%
+            \setlength{\rightskip}{-\leftskip}%
+            \setlength{\parfillskip}{\leftskip}%
+            #1
+        \else
+            #1\hfill
+        \fi
+    \end{minipage}\mbox{}{\vskip 0\baselineskip}\mbox{}\\
+}
+
+\newcommand{\urhl}[1]{\href{#1}{#1}}
+
+\newcommand{\scheduleheading}{%
+    Week & Month & Date & Day & Chapter & Topic \\ \hline
+}
+
+\begin{document}
+\setlength{\parskip}{0in}
+$\quad$\\
+\vspace{-30pt}
+
+\noindent\begin{minipage}[c]{\widthof{{\courseheaderfont Fundamentals of Physics II}}}
+{\courseheaderfont Fundamentals of Physics II}
+\end{minipage}
+\hfill
+\begin{minipage}[c]{\widthof{{\courseheaderfont Class Number 8926}}}
+{\courseheaderfont Class Number 8926}
+\end{minipage}
+
+
+
+\begin{center}
+{\courseheaderfont Syllabus}
+\end{center}
+\setlength{\parskip}{0.0\baselineskip}
+\vspace{\parskip}
+
+\vspace{1.75\baselineskip}
+
+\newlength{\meetinglabelwidth}
+\setlength{\meetinglabelwidth}{\widthof{Discussion}}
+
+
+\newlength{\meetingcolumnsep}
+\setlength{\meetingcolumnsep}{2em}
+
+% ----------------------------------------------------------------------
+% The code that follows uses the tabualrx environemnt
+% Since the LaTeX tabular environments are confusing in general,
+% here is a short primer on column specifications we will be using in tabularx
+%
+% A tabularx environment has the form
+%
+%   \begin{tabularx}{<total width>}{<column specification>}
+%       ...
+%   \end{tabularx}
+%
+% For example,
+%
+%   \begin{tabularx}{\textwidth}{
+%       @{\hspace{2em}}
+%       >{\raggedright\arraybackslash}m{\meetinglabelwidth}
+%       @{\hspace{\meetingcolumnsep}}
+%       >{\raggedright\arraybackslash}X
+%       @{}
+%   }
+%
+% The first argument, here \textwidth, specifies the total width of the
+% table.  The second argument describes the columns, their alignment, and
+% the horizontal material placed at the edges and between the columns.
+%
+% There two categries of column types: non-wrapping, and fixed-width wrapping
+%
+%
+% NON-WRAPPING COLUMN TYPES: l, c, AND r
+%
+%   l     left-aligns the contents of the column;
+%   c     centers the contents of the column;
+%   r     right-aligns the contents of the column.
+%
+% These columns have their natural width: LaTeX makes each one wide enough
+% to accommodate its widest entry.  Their contents do not normally wrap
+% automatically.  Thus an l column is appropriate for a short label, name,
+% date, or other material that should remain on one line.
+%
+%
+% FIXED-WIDTH WRAPPING COLUMN TYPES: p, m, AND b
+%
+%   p{<width>}
+%       creates a paragraph column of the stated fixed width (i.e., each cell can
+%       have multiple rows).  The text within the cell wraps automatically. 
+%       The cell contents are aligned at the top of the row.
+%
+%   m{<width>}
+%       Same, except that the cell contents are vertically centered in the row.
+%
+%   b{<width>}
+%       Same, except that the cell contents are aligned at the bottom of the row.
+%
+% The m and b column types are supplied by the array package.  Text in
+% p, m, and b columns is fully justified by default.
+%
+% For example,
+%
+%   m{\meetinglabelwidth}
+%
+% creates a wrapping column of fixed width \meetinglabelwidth and vertically
+% centers its contents relative to the other cells in the same row.
+%
+%
+% FLEXIBLE WRAPPING COLUMNS: X
+%
+%   X
+%
+% is the special column type supplied by tabularx.  It is a wrapping
+% paragraph column whose width is calculated automatically.  After LaTeX
+% accounts for all fixed-width and natural-width columns, intercolumn
+% spacing, and explicit edge spacing, the X column expands or contracts to
+% occupy the remaining width.
+%
+% With more than one X column, the available flexible width is normally
+% divided equally among them.  Like a p column, an unmodified X column uses
+% justified text and top vertical alignment.
+%
+%
+% COLUMN MODIFIERS: >{...}
+%
+% An entry of the form
+%
+%   >{<declaration>}<column type>
+%
+% inserts the declaration at the beginning of every cell in that column.
+% It modifies the following column type; it is not itself a column.
+%
+% For example,
+%
+%   >{\raggedright\arraybackslash}X
+%
+% means:
+%
+%   1. create a flexible, automatically wrapping X column;
+%   2. apply \raggedright at the beginning of every cell, so the text is
+%      flush left with a ragged right edge rather than fully justified;
+%   3. apply \arraybackslash so that \\ retains its usual meaning as the
+%      command that ends a table row.
+%
+% The \arraybackslash is needed because declarations such as \raggedright
+% redefine \\, which would otherwise interfere with ending the row.
+%
+% Similarly,
+%
+%   >{\raggedright\arraybackslash}m{4cm}
+%
+% creates a 4 cm wide, wrapping, vertically centered column whose text is
+% flush left and ragged right.
+%
+% Writing
+%
+%   >{\raggedright\arraybackslash}l
+%
+% is usually unnecessary.  An l column is already left aligned and does
+% not normally wrap.  The modifier is principally useful with paragraph
+% columns such as X, p{...}, m{...}, and b{...}.
+%
+%
+% EDGE AND INTERCOLUMN MATERIAL: @{...}
+%
+% LaTeX normally inserts horizontal padding of width \tabcolsep at each
+% side of every column.  Consequently, the ordinary gap between two
+% adjacent columns is 2\tabcolsep.
+%
+% An entry of the form
+%
+%   @{<material>}
+%
+% suppresses the normal \tabcolsep padding at that location and replaces
+% it with the specified material.
+%
+% Examples:
+%
+%   @{}
+%       removes the normal padding and inserts nothing.
+%
+%   @{\hspace{2em}}
+%       removes the normal padding and inserts exactly 2em of horizontal
+%       space.
+%
+%   @{\hspace{\meetingcolumnsep}}
+%       replaces the normal intercolumn padding with a custom gap of width
+%       \meetingcolumnsep.
+%
+% Thus,
+%
+%   @{} l X @{}
+%
+% removes the padding at the left and right edges, but leaves the ordinary
+% gap of 2\tabcolsep between the l and X columns.
+%
+% By contrast,
+%
+%   @{} l @{\hspace{0.4em}} X @{}
+%
+% removes the edge padding and replaces the ordinary gap between the two
+% columns with exactly 0.4em.
+%
+%
+% EXAMPLE USED HERE
+%
+%   @{\hspace{2em}}
+%   >{\raggedright\arraybackslash}m{\meetinglabelwidth}
+%   @{\hspace{\meetingcolumnsep}}
+%   >{\raggedright\arraybackslash}X
+%   @{}
+%
+% gives the following layout:
+%
+%   2em left indentation
+%   | fixed-width, wrapping, vertically centered label column
+%   | custom gap of width \meetingcolumnsep
+%   | flexible, wrapping, ragged-right text column
+%   | no additional padding at the right edge
+%
+% The width assigned to the X column is approximately what remains after
+% subtracting the left indentation, the fixed label-column width, and the
+% custom intercolumn gap from the total width specified for tabularx.
+% ----------------------------------------------------------------------
+
+\newlength{\introLmargin}
+\setlength{\introLmargin}{1in} 
+% this length specifies how far to the left will "Lecture:" and "Discussion Sections:" appear
+
+\noindent
+\begin{tabularx}{\textwidth}{
+    @{\hspace{\introLmargin}}
+    >{\raggedright\arraybackslash}m{\meetinglabelwidth}
+    @{\hspace{\meetingcolumnsep}}
+    >{\raggedright\arraybackslash}X
+    @{}
+}
+Lecture:
+&
+Mo We Fr\quad \mbox{4:00~p.m.}\;--\;\mbox{4:50~p.m.}
+\end{tabularx}
+
+\par\addvspace{\baselineskip}
+
+\noindent
+% this has identical settings to the previous tabularx
+\begin{tabularx}{\textwidth}{
+    @{\hspace{\introLmargin}}
+    >{\raggedright\arraybackslash}m{\meetinglabelwidth}
+    @{\hspace{\meetingcolumnsep}}
+    >{\raggedright\arraybackslash}X
+    @{}
+}
+Discussion Sections:
+&
+\begin{tabular}[c]{@{}l@{\hspace{0.4em}}llr@{}}
+Sect 01,& Class Nbr 8927  & Mo We & 2:00 p.m.--2:50 p.m.\\
+Sect 02,& Class Nbr 11373 & Mo We & 3:00 p.m.--3:50 p.m.\\
+Sect 03,& Class Nbr 15070 & Mo We & 3:00 p.m.--3:50 p.m.
+\end{tabular}
+\end{tabularx}
+
+\vspace{0.75\baselineskip}
+
+\settowidth{\warningwidth}{This is NOT a laboratory course; if you need one, you should be enrolled in PHYSIC 182}
+{\centering\framebox{
+\begin{minipage}{\warningwidth}
+This is NOT a laboratory course; if you need one, you should be enrolled in PHYSIC 182
+\end{minipage}
+}\par % when using \centering, we must make sure the paragraph actually ends while \centering is still in effect. That is what \par does.
+}
+
+\vspace{0.75\baselineskip}
+
+
+
+\newlength{\courselabelwidth}
+\settowidth{\courselabelwidth}{\textbf{Blackboard:}}
+
+\newlength{\sylEntryWidth}
+\setlength{\sylEntryWidth}{0.95\textwidth}
+\noindent
+\begin{tabularx}{\sylEntryWidth}%
+{@{}%
+>{\raggedright\arraybackslash}p{\courselabelwidth}
+@{\hspace{1em}}
+X
+@{}}
+\textbf{Instructor:} & Vanja Dunjko\\
+                     & email: vanja.dunjko@umb.edu\\
+                     & Office Hours: Fr 1:00~p.m.--2:00~p.m.
+\end{tabularx}
+\vskip 0.5\baselineskip
+{\smaller % begin smaller
+\setlength{\tabcolsep}{2pt}%
+\noindent
+\begin{tabularx}{\textwidth}%
+    {@{}
+    >{\raggedright\arraybackslash}m{\widthof{Discussionaa}}
+    p{\widthof{mmm}}
+    l@{\hspace{2em}}
+    l@{\hspace{2em}}
+    X@{}}
+\textbf{Discussion section TA:}
+    & & Joanna Ruhl
+    & Joanna.Ruhl001@umb.edu
+    & Office hours Mo We 1:00~p.m.--2:00~p.m.
+    \\[\normalbaselineskip]
+\textbf{Grader:}
+    & & Benjamin Moss
+    & Benjamin.Moss002@umb.edu
+    & Office Hours TBA
+    \\[\normalbaselineskip]
+\textbf{Tutoring:}
+    & & TBA & &
+\end{tabularx}
+} % end smaller
+\vskip \baselineskip
+\noindent \begin{minipage}{\textwidth}
+\centering
+ \textbf{Important communication about the course} may be \textbf{emailed} to you at any time.
+ 
+I will be assuming that you will have read it within \textbf{24 hours} of me sending it.
+\end{minipage}
+\mbox{}\\
+
+
+\noindent\begin{tabularx}{\sylEntryWidth}
+{@{}%
+>{\raggedright\arraybackslash}p{\courselabelwidth}
+@{\hspace{1em}}X@{}}
+\textbf{Blackboard:}
+    & We will be using Blackboard (\urhl{https://umb.umassonline.net/}) in the following ways: 1.~for submission of quizzes, midterms, and the final exam; 2.~to post the scores from graded quizzes and exams; 3.~as a depository for all class materials (like this syllabus, detailed instructions for how to register for \textit{Mastering Physics}, various handouts, etc.); 4.~Blackboard's announcement section will mirror all the class-wide emails I send, so you can be sure you haven't missed any.
+\end{tabularx}
+
+\vspace{\baselineskip}
+
+\noindent\begin{tabularx}{\sylEntryWidth}
+{@{}%
+>{\raggedright\arraybackslash}p{\courselabelwidth}
+@{\hspace{1em}}X@{}}
+\textit{\textbf{Mastering\newline Physics:}}
+    & Homeworks and exercises will be managed using
+      \textit{\textbf{Mastering Physics,}} an online service which will be
+      provided to you at no additional cost. As soon as the Physics Department has
+      obtained the subscription for this semester, I will email you detailed
+      instructions for how to register.
+\end{tabularx}
+
+\vspace{\baselineskip}
+
+\noindent\begin{tabularx}{\sylEntryWidth}
+{@{}%
+>{\raggedright\arraybackslash}p{\courselabelwidth}
+@{\hspace{1em}}X@{}}
+\textbf{Text:}
+    & S.\ J.\ Ling et al., \textit{University Physics,} vol.~2. This is a
+      free textbook from OpenStax, available here:
+      \urhl{https://openstax.org/details/books/university-physics-volume-2}.
+      (At the end, we'll also use vol.~3.)
+
+      \par\vspace{0.25\baselineskip}
+      \textit{Mastering Physics} is formally linked to a different textbook:
+      R. Wolfson, \textit{Essential University Physics,} 4th~ed., Vols. I and
+      II (Pearson, Prentice Hall, 2019). It is \textbf{not} essential that you
+      get Wolfson. At the same time, if you already have it, you can choose to use it instead of the OpenStax text.
+      Also, if you so choose, you will be able to rent Wolfson through
+      \textit{Mastering Physics} (i.e.\ you'll have to pay for it).
+
+      \par\vspace{0.25\baselineskip}
+      However, everyone should have Wolfson's table of contents, as it will
+      serve as our common reference point. It is freely accessible here:
+      \urhl{https://www.pearson.com/store/p/essential-university-physics/P100001116945/9780134988566?tab=table-of-contents}.
+\end{tabularx}
+
+
+\newpage
+\vspace*{\baselineskip}
+{%\smaller
+\noindent\textbf{Optional supplementary texts:} There is a huge number of different textbooks for calculus-based introductory physics. If don't like either OpenStax or Wolfson, you may try some of these others. Here is a (small!) sampling of the various possibilties; I'm giving the latest edtitions, but any edition is fine. For my taste, all except the final two are mutually interchangeable. That said, each one has fans who prefer it over all the others.\\
+
+{
+\relsize{-1}
+\begin{adjustwidth}{\widthof{mmmm}}{0pt}
+\atextbook{Resnick, R., D. Halliday, and J. Walker. \textit{Fundamentals of Physics}, 11th~ed. (Wiley, Hoboken, NJ, 2018)}
+%
+\atextbook{Young, H. D., and R. A. Freedman. \textit{University Physics with Modern Physics,} 14th~ed. (Pearson, Boston, MA, 2015)}
+%
+\atextbook{Serway, R. A. and J. W. Jewett. \textit{Physics for Scientists and Engineers with Modern Physics,} 10th~ed. (Cengage Learning, Boston, MA, 2018)}
+%
+\atextbook{Tipler, P. A., and G. Mosca. \textit{Physics for Scientists and Engineers,} 6th~ed. (Freeman, New York, 2007)}
+%
+\atextbook{Knight, R. D. \textit{Physics for Scientists and Engineers: A Strategic Approach with Modern Physics)}, 4th~ed. (Pearson, Boston, MA, 2016)}
+%
+\atextbook{Katz, D. M. \textit{Physics for Scientists and Engineers: Foundations and Connections} (Cengage Learning, Boston, MA, 2015)}
+%
+\atextbook{Giancoli, D. C. \textit{Physics for Scientists \& Engineers with Modern Physics,} 4th~ed. (Pearson, Boston, MA, 2008)}
+%
+\atextbook{Shankar, R. \textit{Fundamentals of Physics,} Expanded Ed. (Yale University Press, 2020)}
+%
+\atextbook{Chabay, R. W., and  B. A. Sherwood. \textit{Matter and Interactions,} 3rd~ed. (Wiley, Hoboken, NJ, 2010)}
+%
+%
+\end{adjustwidth}
+}
+}
+\setlength{\parskip}{\baselineskip}
+
+\vfill
+\textbf{Attendance:} Class attendance is mandatory in both the lecture and the discussion section.
+\vfill
+\textbf{Hand calculators:} You will need a `scientific' calculator, meaning that it should support trigonometric functions, their inverse functions, the exponential function, and the natural logarithm. It is \textbf{not} necessary fot it to have graphing or programming capabilities.
+
+\vfill
+\textbf{Homework:} These will normally be assiged on \textit{Mastering Physics}. Many problems there are from Wolfson, but there are also 'tutorials' that are, in effect, separate problems which are \textit{not} in Wolfson.
+\vfill
+\textbf{Quizzes:} Short in-class quizzes will be given about once a week, normally on Friday. The lowest grade will be dropped. Quizzes are closed book, no cheat sheets.\vspace{-0.5\baselineskip}
+
+As a rule, questions on the quizzes will be `minimally modified versions' of homework problems. `Minimal modification' here  means that, in comparison to the corresponding homework problem, the problem on the quiz will have e.g. different numerical values and/or a reversal of what is given vs. what is asked for. By default, homework is assigned on the \textit{Mastering Physics} website.
+\vfill\mbox{}
+\newpage
+
+\settowidth{\quizlabelwidth}{Makeu}
+\settowidth{\quiztextwidth}{\textbf{zzes:} Short in-class quizzes will be given about once a week, normally on Tuesday. The lowest}
+\textbf{Quiz makeup policy:}\\
+\vskip -2.5\baselineskip
+\mbox{}\\
+\mbox{}\vspace{1ex}\hspace{\quizlabelwidth} 1. \begin{minipage}[t]{\quiztextwidth}You get one `freebie' makeup: you can miss and then make up one quiz, no questions asked.
+\end{minipage}\\
+\mbox{}\vspace{1ex}\hspace{\quizlabelwidth} 2. \begin{minipage}[t]{\quiztextwidth}
+          You can also make up any missed quiz for which you have a valid documented reason for missing it. There is no limit on the number of quizzes you may make up this way. Also, you can do any number of justified makeups before you decide to `spend' your freebie.
+         \end{minipage}\\
+\mbox{}\vspace{1ex}\hspace{\quizlabelwidth} 3. \begin{minipage}[t]{\quiztextwidth}
+          A missed quiz must be made-up \textit{within one week} from the day it was given in class, unless you have a very convincing documented reason.
+         \end{minipage}\\
+\mbox{}\vspace{1ex}\hspace{\quizlabelwidth} 4. \begin{minipage}[t]{\quiztextwidth}
+           You should make up quizzes \textit{at the beginning} of office hours (either mine, or those of the TAs, or those of the grader). 
+You don't need to make a special appointment, but it is good practice to notify in advance, via email, the relevant person.
+         \end{minipage}\\
+\mbox{}\vspace{1ex}\hspace{\quizlabelwidth} 5. \begin{minipage}[t]{\quiztextwidth}
+           Makeups are not re-dos: if you didn't actually miss a quiz, you can't make it up. No re-takes.
+         \end{minipage}
+
+
+
+
+\vfill
+\textbf{Exams:}  There will be two midterms and a cumulative final. The midterms will be administered on the days shown in the schedule. You need to bring a calculator to exams. Exams are closed book and no cheat sheets. However, you will have a very good idea what kinds of questions to expect.
+
+\vfill
+\textbf{Grades:}
+Final: 30\%; each miderm: 25\%; quizzes: 15\%; homework 5\%
+%
+
+If the class and discussion section attendance proves to be poor, I may start to introduce graded class activities at 5-10\% of the total grade. I will let you know at the time how the grade weights of the other components change as a result.
+\\
+\mbox{}\\
+The final grades are usually quite significantly \textbf{scaled} ('curved'). Because in that case everyone's grade significantly depends on how everyone else did, it is not possible to predict what the grade cutoffs will be (not until the final exam is graded, anyway). However, the grade cutoffs will certainly not be higher than the following:
+
+\begin{tabular}{cccccccccccc}
+F & D- & D & D+ & C- & C & C+ & B- & B & B+ & A- & A\\
+0-59 & 60-62 & 63-66 & 67-69 & 70-72 & 73-76 & 77-79 & 80-82 & 83-86 & 87-89 & 90-92 & 93-100
+\end{tabular}
+
+So for example, if your final cummulative score for the class is 89\%, then you are sure to get at least a B+, no matter what the scaling. But you may end up getting an A- or an A, depending on how the scaling works out.
+
+\vfill
+\begin{minipage}[t]{\widthof{\textbf{Important deadlines:}}}
+\textbf{Important deadlines:}
+\end{minipage}\hspace{1em}
+\begin{minipage}[t]{\textwidth-\widthof{websitewebsite}}
+Add/Drop: Feb 1 (Mo) \\
+Withdrawal and Pass/Fail: Apr 22 (Th)
+\end{minipage}
+
+\vfill
+\textbf{The Ross Center:} Students with disabilities who need accommodations in this course must contact the Ross Center for Disability Services to discuss needed accommodations. Students must be registered with the Ross Center for Disability Services, CC UL 211, \urhl{http://www.umb.edu/academics/vpass/disability}, ross.center@umb.edu~, 617.287.7430 before requesting accommodations.
+
+
+
+
+
+
+\vfill
+\textbf{Lecture schedule:} 
+Please note that this is \textit{tentative}---except for the dates of the midterms, which won't change except under extraordinary circumstances. The rest will depend on how the class goes, although I will certainly \textit{try} to stick to this schedule.
+\vfill\mbox{}\newpage
+
+
+% Pull the schedule upward slightly and reduce its font size if needed.
+\mbox{}\vspace{-2\baselineskip}\mbox{}\\
+\begingroup
+\normalsize
+\renewcommand{\RSpercentTolerance}{0}
+\relscale{0.85}
+
+% \LTleft sets the position of the table edge.  With this column
+% specification, the first entry begins one \tabcolsep farther to the right.
+% Use @{}llllcl@{} if the first entry itself should begin at \LTleft.
+\setlength{\LTleft}{0.25in}
+\setlength{\LTright}{\fill}
+\begin{longtable}{llllcl}
+%
+\scheduleheading
+\endfirsthead
+%
+\multicolumn{6}{l}{Continued from the previous page} \\ \hline
+\scheduleheading
+\endhead
+%
+\multicolumn{6}{r}{Continued on the following page} \\
+\endfoot
+%
+\endlastfoot
+%
+% Paste the LaTeX code generated by lecture_schedule.xlsx here:
+%
+\multirow{3}{*}{W01}	&	\multirow{3}{*}{Jan}	&	25	&	Mo\rule{0pt}{11pt}	&	16	&	Temperature and Heat	\\*	
+	&		&	27	&	We	&	16	&	Temperature and Heat	\\*	
+	&		&	29	&	Fr	&	17	&	The Thermal Behavior of Matter	\\	\hline
+\multirow{3}{*}{W02}	&	\multirow{3}{*}{Feb}	&	01	&	Mo\rule{0pt}{11pt}	&	17	&	The Thermal Behavior of Matter	\\*	
+	&		&	03	&	We	&	18	&	Heat, Work, and the First Law of Thermodynamics	\\*	
+	&		&	05	&	Fr	&	18	&	Heat, Work, and the First Law of Thermodynamics	\\	\hline
+\multirow{3}{*}{W03}	&	\multirow{3}{*}{Feb}	&	08	&	Mo\rule{0pt}{11pt}	&	19	&	The Second Law of Thermodynamics  	\\*	
+	&		&	10	&	We	&	19	&	The Second Law of Thermodynamics  	\\*	
+	&		&	12	&	Fr	&	19	&	The Second Law of Thermodynamics  	\\	\hline
+\multirow{3}{*}{W04}	&	\multirow{3}{*}{Feb}	&	15	&	Mo\rule{0pt}{11pt}	&	No class	&	President's Day	\\*	
+	&		&	17	&	We	&	20	&	Electric Charge, Force, and Field	\\*	
+	&		&	19	&	Fr	&	20	&	Electric Charge, Force, and Field	\\	\hline
+\multirow{3}{*}{W05}	&	\multirow{3}{*}{Feb}	&	22	&	Mo\rule{0pt}{11pt}	&	21	&	Gauss’s Law	\\*	
+	&		&	24	&	We	&	21	&	Gauss’s Law	\\*	
+	&		&	26	&	Fr	&	\textbf{Midterm 1}	&		\\	\hline
+\multirow{3}{*}{W06}	&	\multirow{3}{*}{Mar}	&	01	&	Mo\rule{0pt}{11pt}	&	21	&	Gauss’s Law	\\*	
+	&		&	03	&	We	&	22	&	Electric Potential  	\\*	
+	&		&	05	&	Fr	&	22	&	Electric Potential  	\\	\hline
+\multirow{3}{*}{W07}	&	\multirow{3}{*}{Mar}	&	08	&	Mo\rule{0pt}{11pt}	&	23	&	Electrostatic Energy and Capacitors 	\\*	
+	&		&	10	&	We	&	23	&	Electrostatic Energy and Capacitors 	\\*	
+	&		&	12	&	Fr	&	24	&	Electric Current 	\\	\hline
+\multirow{3}{*}{W08}	&	\multirow{3}{*}{Mar}	&	15	&	Mo\rule{0pt}{11pt}	&	No class	&	Spring Vacation	\\*	
+	&		&	17	&	We	&	No class	&	Spring Vacation	\\*	
+	&		&	19	&	Fr	&	No class	&	Spring Vacation	\\	\hline
+\multirow{3}{*}{W09}	&	\multirow{3}{*}{Mar}	&	22	&	Mo\rule{0pt}{11pt}	&	24	&	Electric Current 	\\*	
+	&		&	24	&	We	&	25	&	Electric Circuits 	\\*	
+	&		&	26	&	Fr	&	25	&	Electric Circuits 	\\	\hline
+\multirow{3}{*}{W10}	&	\multirow{2}{*}{Mar}	&	29	&	Mo\rule{0pt}{11pt}	&	26	&	Magnetism: Force and Field	\\*	
+	&		&	31	&	We	&	26	&	Magnetism: Force and Field	\\*	
+	&	Apr	&	02	&	Fr	&	26	&	Magnetism: Force and Field	\\	\hline
+\multirow{3}{*}{W11}	&	\multirow{3}{*}{Apr}	&	05	&	Mo\rule{0pt}{11pt}	&	26	&	Magnetism: Force and Field	\\*	
+	&		&	07	&	We	&	27	&	Electromagnetic Induction	\\*	
+	&		&	09	&	Fr	&	\textbf{Midterm 2}	&		\\	\hline
+\multirow{3}{*}{W12}	&	\multirow{3}{*}{Apr}	&	12	&	Mo\rule{0pt}{11pt}	&	27	&	Electromagnetic Induction	\\*	
+	&		&	14	&	We	&	27	&	Electromagnetic Induction	\\*	
+	&		&	16	&	Fr	&	28	&	Alternating-Current Circuits	\\	\hline
+\multirow{3}{*}{W13}	&	\multirow{3}{*}{Apr}	&	19	&	Mo\rule{0pt}{11pt}	&	No class	&	Patriot’s Day	\\*	
+	&		&	21	&	We	&	28	&	Alternating-Current Circuits	\\*	
+	&		&	23	&	Fr	&	29	&	Maxwell’s Equations and Electromagnetic Waves	\\	\hline
+\multirow{3}{*}{W14}	&	\multirow{3}{*}{Apr}	&	26	&	Mo\rule{0pt}{11pt}	&	29	&	Maxwell’s Equations and Electromagnetic Waves	\\*	
+	&		&	28	&	We	&	30	&	Reflection and Refraction	\\*	
+	&		&	30	&	Fr	&	30	&	Reflection and Refraction	\\	\hline
+\multirow{3}{*}{W15}	&	\multirow{3}{*}{May}	&	03	&	Mo\rule{0pt}{11pt}	&	31	&	Images and Optical Instruments	\\*	
+	&		&	05	&	We	&	31	&	Images and Optical Instruments	\\*	
+	&		&	07	&	Fr	&	32	&	 Interference and Diffraction	\\	\hline
+\multirow{2}{*}{W16}	&	\multirow{2}{*}{May}	&	10	&	Mo\rule{0pt}{11pt}	&	32	&	 Interference and Diffraction	\\*	
+	&		&	12	&	We	&	32	&	 Interference and Diffraction	\\	\hline
+\end{longtable}
+\endgroup
+\medskip
+
+\noindent Date of the final exam: TBA
+
+\end{document}
