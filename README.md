@@ -8,10 +8,10 @@ This repository contains: two files:
 ## The Excel/LibreOffice file
 
 The spreadsheet is for planning a semester-long course schedule. The main output is the corresponding LaTeX table code. No macros are used.
-Alternatively, one can use the following equivalent [Google Sheets document](https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy).
+Alternatively, one can use the following equivalent [Google Sheets document](https://docs.google.com/spreadsheets/d/1gfeErVIzK9o9KlgYscAHgbvGePsBxHcZ5Q-O7JI43ok/copy).
 That link in full: 
 
-`https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy`
+`https://docs.google.com/spreadsheets/d/1gfeErVIzK9o9KlgYscAHgbvGePsBxHcZ5Q-O7JI43ok/copy`
 
 Make sure you make a copy to Sheets associated with your Google account. 
 
@@ -79,7 +79,7 @@ It should also work in recent versions of **Microsoft Excel**, although small di
 
 A native Google Sheets version is also available:
 
-[lecture_schedule_to_LaTeX](https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy).
+[lecture_schedule_to_LaTeX](https://docs.google.com/spreadsheets/d/1gfeErVIzK9o9KlgYscAHgbvGePsBxHcZ5Q-O7JI43ok/copy).
 
 The link should open Google’s **Make a copy** page. The resulting copy belongs to the user and can be edited without changing the shared master spreadsheet.
 
