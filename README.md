@@ -10,7 +10,9 @@ That link in full:
 
 `https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy`
 
-Make sure you make a copy to Sheets associated with your Google account.
+Make sure you make a copy to Sheets associated with your Google account. 
+
+Note that unlike with the .xlsx document, Google Sheets encloses the LaTeX table output in double quotes ("). Make sure you remove them after pasting into your .tex document.
 
 The spreadsheet is intended to remove most of the repetitive work involved in constructing a lecture schedule. 
 After the first class date, regular meeting days, chapter numbers, topics, holidays, and examinations have been entered, the workbook calculates the meeting dates and produces ready-to-paste LaTeX.
@@ -78,6 +80,8 @@ A native Google Sheets version is also available:
 [lecture_schedule_to_LaTeX](https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy).
 
 The link should open Google’s **Make a copy** page. The resulting copy belongs to the user and can be edited without changing the shared master spreadsheet.
+
+Note that unlike with the .xlsx document, Google Sheets encloses the LaTeX table output in double quotes ("). Make sure you remove them after pasting into your .tex document.
 
 ## LaTeX usage
 
