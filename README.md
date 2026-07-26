@@ -1,9 +1,12 @@
 # Lecture Schedule Spreadsheet and LaTeX Template
 
-This repository contains:
+This repository contains: two files:
 
 1. the Excel/LibreOffice file `lecture_schedule_to_LaTeX.xlsx`
-   
+2. the LaTeX source file `syllabus_template.tex`
+
+## The Excel/LibreOffice file
+
 The spreadsheet is for planning a semester-long course schedule. The main output is the corresponding LaTeX table code. No macros are used.
 Alternatively, one can use the following equivalent [Google Sheets document](https://docs.google.com/spreadsheets/d/1fxr04CtwvCsruAUemiwHyToYS2YPu7iXdclhrbtjdJY/copy).
 That link in full: 
@@ -17,8 +20,7 @@ Note that unlike with the .xlsx document, Google Sheets encloses the LaTeX table
 The spreadsheet is intended to remove most of the repetitive work involved in constructing a lecture schedule. 
 After the first class date, regular meeting days, chapter numbers, topics, holidays, and examinations have been entered, the workbook calculates the meeting dates and produces ready-to-paste LaTeX.
 
-   
-2. the LaTeX source file `syllabus_template.tex`
+## The LaTeX source file
    
 The .tex document produces the actual syllabus/ The final table of the syllabus, which is the class schedule, was copied and pasted from the spreadsheet.
 
