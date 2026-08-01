@@ -8,6 +8,12 @@ This repository contains: two files:
 ## The Excel/LibreOffice file
 
 The spreadsheet is for planning a semester-long course schedule. The main output is the corresponding LaTeX table code. No macros are used.
+
+The spreadsheet is intended to remove most of the repetitive work involved in constructing a lecture schedule. 
+After the first class date, regular meeting days, chapter numbers, topics, holidays, and examinations have been entered, the workbook calculates the meeting dates and produces ready-to-paste LaTeX.
+
+### Google Sheets version
+
 Alternatively, one can use the following equivalent [Google Sheets document](https://docs.google.com/spreadsheets/d/1gfeErVIzK9o9KlgYscAHgbvGePsBxHcZ5Q-O7JI43ok/copy).
 That link in full: 
 
@@ -16,9 +22,6 @@ That link in full:
 Make sure you make a copy to Sheets associated with your Google account. 
 
 Note that unlike with the .xlsx document, Google Sheets encloses the LaTeX table output in double quotes ("). Make sure you remove them after pasting into your .tex document.
-
-The spreadsheet is intended to remove most of the repetitive work involved in constructing a lecture schedule. 
-After the first class date, regular meeting days, chapter numbers, topics, holidays, and examinations have been entered, the workbook calculates the meeting dates and produces ready-to-paste LaTeX.
 
 ## The LaTeX source file
    
